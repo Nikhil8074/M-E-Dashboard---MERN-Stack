@@ -9,11 +9,20 @@ from pymongo import MongoClient
 from bson import ObjectId
 
 # ── CONFIGURATION ─────────────────────────────────────────────────────────────
-GEMINI_API_KEY = "AIzaSyCux93dMVw11Yopdng20wm-2nS4J2tQQqE"
-GEMINI_URL     = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
-MONGO_URI      = "mongodb+srv://pallamreddyviswas:7G4h7FIrUxSt8RiF@cluster0.lzcvb.mongodb.net/Anusandhan?retryWrites=true&w=majority&appName=Cluster0"
-MONGO_DB_NAME  = "Anusandhan"
-CLIENT_ORIGIN  = "http://localhost:5173"
+from dotenv import load_dotenv
+
+# Load environment variables from ../.env
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
+
+# Now you can access environment variables like this:
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_URL     = os.getenv("GEMINI_URL")
+MONGO_URI      = os.getenv("MONGO_URI")
+MONGO_DB_NAME  = os.getenv("MONGO_DB_NAME")
+CLIENT_ORIGIN  = os.getenv("CLIENT_ORIGIN", "http://localhost:5173")  # default if not set
+
+print(
+    f"Environment variables loaded: MONGO_URI={MONGO_URI}\n MONGO_DB_NAME={MONGO_DB_NAME}\n GEMINI_URL={GEMINI_URL}\n GEMINI_API_KEY={GEMINI_API_KEY}\n CLIENT_ORIGIN={CLIENT_ORIGIN}")
 
 if not all([MONGO_URI, MONGO_DB_NAME, GEMINI_URL, GEMINI_API_KEY]):
     raise EnvironmentError(
